@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+}
+
+/* Fonts Nunito */
+@font-face {
+  font-family: Nunito;
+  src: url(../../public/fonts/Nunito/Nunito-Black.ttf);
+  font-weight: 900
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url(../../public/fonts/Nunito/Nunito-Light.ttf);
+  font-weight: 800
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url(../../public/fonts/Nunito/Nunito-Medium.ttf);
+  font-weight: 700
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url(../../public/fonts/Nunito/Nunito-Regular.ttf);
+}
+
+@font-face {
+  font-family: Nunito;
+  src: url(../../public/fonts/Nunito/Nunito-SemiBold.ttf);
+}
+
+/* fonts Sixtyfour  */
+@font-face {
+  font-family: Sixtyfour;
+  src: url(../../public/fonts/Sixtyfour/static/Sixtyfour-Regular.ttf);
+}
+
+:root {
+  --secondary-color: #FF0C65;
+  /* This is the secondary color from your theme */
+}
+
+.addBut:hover {
+  color: var(--secondary-color);
+}
