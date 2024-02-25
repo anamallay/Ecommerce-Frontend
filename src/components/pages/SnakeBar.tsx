@@ -2,8 +2,13 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 
+interface SnackBarProps {
+  open: boolean;
+  message: string;
+  type: "error" | "warning" | "info" | "success";
+}
 // Add 'type' as a prop here
-export default function SnakeBar({ open, message, type }) {
+export default function SnakeBar({ open, message, type }: SnackBarProps) {
   return (
     <div>
       <Stack sx={{ width: "100%" }} spacing={2}>

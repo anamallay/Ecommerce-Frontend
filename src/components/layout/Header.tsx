@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ShopIcon from "@mui/icons-material/Shop";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,16 +14,18 @@ import { AppDispatch, RootState } from "../../reducer/store/store";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import Home from "./Home";
-import ShowProducts from "../products/showProducts";
 import Contact from "./Contact";
 import AboutUs from "./AboutUs";
-import { Link as ScrollLink } from "react-scroll";
+import { Link as ScrollLink, scroller } from "react-scroll";
 import { Element } from "react-scroll";
+import ShowProducts from "../products/ShowProducts";
 
 const pages = ["Home", "Products", "Contact", "About Us"];
 
 export default function Header() {
-  const { userData, isLoggedIn } = useSelector((state) => state.users);
+  const { userData, isLoggedIn } = useSelector(
+    (state: RootState) => state.users
+  );
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,8 +33,7 @@ export default function Header() {
   const { showHideToast } = useToaster();
 
   console.log("location", location.pathname == "/");
-  // Inside your Header component
-  const handleNavigateAndScroll = (page) => {
+  const handleNavigateAndScroll = (page: string) => {
     if (location.pathname !== "/") {
       navigate("/", { replace: true });
     } else {
@@ -40,7 +41,7 @@ export default function Header() {
     }
   };
 
-  const scrollToSection = (page) => {
+  const scrollToSection = (page: string) => {
     const scrollId = page.toLowerCase().replace(/\s+/g, "");
     setTimeout(() => {
       scroller.scrollTo(scrollId, {
@@ -62,7 +63,11 @@ export default function Header() {
       navigate("/");
       showHideToast(user.message, "success");
     } catch (error) {
-      showHideToast(error.message, "warning");
+      if (error instanceof Error) {
+        showHideToast(error.message, "warning");
+      } else {
+        showHideToast("An unexpected error occurred.", "warning");
+      }
     }
   };
 
@@ -70,7 +75,6 @@ export default function Header() {
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
-          position="static"
           position="fixed"
           sx={{ backgroundColor: "white", color: "black" }}>
           <Toolbar>
@@ -160,9 +164,9 @@ export default function Header() {
                 </Link>
                 <Link
                   to={
-                    userData.isAdmin ? "/dashboard/admin" : "/dashboard/user"
+                    userData?.isAdmin ? "/dashboard/admin" : "/dashboard/user"
                   }>
-                  <Avatar src={userData.image} />
+                  <Avatar src={userData?.image} />
                 </Link>
 
                 <Button

@@ -5,23 +5,34 @@ import { Button, Container, Typography } from "@mui/material";
 import { useToaster } from "../../../contexts/ToasterProvider";
 import { baseURl } from "../../../reducer/actions/baseURl";
 
+interface DecodedToken {
+  first_name: string;
+}
 const ActivateAccount = () => {
   const navigate = useNavigate();
-  const { token } = useParams();
-  const decoded = jwtDecode(token);
+  const params = useParams<{ token?: string }>();
+  const token = params.token;
+
+  if (!token) {
+    console.error("Token is missing");
+    return <div>Token is missing</div>;
+  }
+
+  const decoded: DecodedToken = jwtDecode(token as string); 
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { showHideToast } = useToaster();
 
-    // todo: mode this to redux action slice 
+  // todo: mode this to redux action slice
   const handleActivation = () => {
     axios
       .post(`${baseURl}/api/users/activate-account/${token}`)
-      .then((response) => {
+      .then(() => {
         navigate("/login", { state: { fromActivation: true } });
         showHideToast(
           "Your account has been activated successfully. You can now log in.",
           "success"
         );
-
       })
       .catch((error) => {
         console.error("Error activating account:", error.response.data);

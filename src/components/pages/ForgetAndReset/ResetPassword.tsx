@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 import { Container, Box, Typography, TextField, Button } from "@mui/material";
 import { resetPassword } from "../../../reducer/actions/users/usersSlice";
 import { AppDispatch } from "../../../reducer/store/store";
@@ -14,13 +14,13 @@ function ResetPassword() {
   const [password, setPassword] = useState("");
   const { showHideToast } = useToaster();
 
-  const decode = token ? jwtDecode(token) : null;
+  // const decode = token ? jwtDecode(token) : null;
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!token) {
       showHideToast("No reset token provided.", "error");
