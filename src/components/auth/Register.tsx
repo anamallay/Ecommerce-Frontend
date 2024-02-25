@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -11,11 +10,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
-import { AppDispatch } from "../../reducer/store/store";
+import { AppDispatch, RootState } from "../../reducer/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "../../reducer/actions/users/usersSlice";
 import { useToaster } from "../../contexts/ToasterProvider";
 import CircularColor from "../pages/Loading";
+import { useState } from "react";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -39,9 +39,7 @@ interface FormData {
 export default function Register() {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
-  const { users, isLoggedIn, isLoading, error } = useSelector(
-    (state) => state.users
-  );
+  const { isLoading } = useSelector((state: RootState) => state.users);
   const { showHideToast } = useToaster();
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
@@ -54,13 +52,13 @@ export default function Register() {
     image: null,
   });
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.type === "file") {
       const fileInput = event.target as HTMLInputElement;
       if (fileInput.files && fileInput.files.length > 0) {
         setFormData((prevFormData) => ({
           ...prevFormData,
-          [event.target.name]: fileInput.files[0],
+          [event.target.name]: fileInput.files![0],
         }));
       } else {
         setFormData((prevFormData) => ({
@@ -76,9 +74,8 @@ export default function Register() {
     }
   };
   console.log("formData reg", formData);
-  
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -110,8 +107,14 @@ export default function Register() {
         if (response.type === "users/createUser/fulfilled") {
           showHideToast(response.payload.message, "success");
           navigate("/login");
-        } else if (response.type === "users/createUser/rejected") {
-          showHideToast(response.error.message, "warning");
+        } else if (
+          response.type === "users/createUser/rejected" &&
+          "error" in response
+        ) {
+          showHideToast(
+            response.error.message || "An unknown error occurred",
+            "warning"
+          );
         }
       } catch (error) {
         console.error("Failed to create user", error);

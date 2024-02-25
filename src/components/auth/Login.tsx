@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 import { Copyright } from "../layout/Copyright";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUsers, loginUser } from "../../reducer/actions/users/usersSlice";
-import { AppDispatch } from "../../reducer/store/store";
+import { AppDispatch, RootState } from "../../reducer/store/store";
 import { useEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useToaster } from "../../contexts/ToasterProvider";
@@ -23,9 +23,7 @@ import CircularColor from "../pages/Loading";
 export default function Login({ pathName }: { pathName?: string }) {
   const dispatch: AppDispatch = useDispatch();
 
-  const { users, isLoggedIn, isLoading, error } = useSelector(
-    (state) => state.users
-  );
+  const { isLoading } = useSelector((state: RootState) => state.users);
   const navigate = useNavigate();
   const { showHideToast } = useToaster();
   useEffect(() => {
@@ -33,7 +31,7 @@ export default function Login({ pathName }: { pathName?: string }) {
   }, [dispatch]);
   if (isLoading) return <CircularColor />;
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const userData = {
@@ -45,7 +43,6 @@ export default function Login({ pathName }: { pathName?: string }) {
       const resultAction = await dispatch(loginUser(userData));
       const loginResponse = resultAction.payload.payload.isAdmin;
 
-
       const user = unwrapResult(resultAction);
 
       navigate(
@@ -53,8 +50,12 @@ export default function Login({ pathName }: { pathName?: string }) {
       );
       showHideToast(user.message, "success");
     } catch (error) {
-      showHideToast(error.message, "warning");
-      
+      if (error instanceof Error) {
+        showHideToast(error.message, "warning");
+      } else {
+        console.error("An unexpected error occurred:", error);
+        showHideToast("An unexpected error occurred", "warning");
+      }
     }
   };
 
