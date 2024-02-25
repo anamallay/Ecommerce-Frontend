@@ -32,7 +32,7 @@ import { useToaster } from "../../../contexts/ToasterProvider";
 
 const AdminOrders = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { orders, isLoading, error } = useSelector(
+  const { orders, isLoading } = useSelector(
     (state: RootState) => state.order
   );
   const { showHideToast } = useToaster();

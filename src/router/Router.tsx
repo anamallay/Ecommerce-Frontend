@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "../components/layout/Header";
-import Home from "../components/layout/Home";
+// import Header from "../components/layout/Header";
+// import Home from "../components/layout/Home";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
-import AboutUs from "../components/layout/AboutUs";
-import Contact from "../components/layout/Contact";
+// import AboutUs from "../components/layout/AboutUs";
+// import Contact from "../components/layout/Contact";
 import Error from "../components/layout/Error";
 import ResetPassword from "../components/pages/ForgetAndReset/ResetPassword";
 import ActivateAccount from "../components/pages/ForgetAndReset/ActivateAccount";
@@ -19,8 +19,8 @@ import AdminProduct from "../components/SideBar/admin/AdminProduct";
 import AdminCategory from "../components/SideBar/admin/AdminCategory";
 import AdminUserlist from "../components/SideBar/admin/AdminUserlist";
 import AdminOrders from "../components/SideBar/admin/AdminOrders";
-import DetailProduct from "../components/products/detailProduct";
-import ShowProducts from "../components/products/showProducts";
+import DetailProduct from "../components/products/DetailProduct";
+// import ShowProducts from "../components/products/showProducts";
 import MyOrder from "../components/SideBar/user/MyOrder";
 import Layout from "./Layout ";
 

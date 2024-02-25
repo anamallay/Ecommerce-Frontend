@@ -101,7 +101,7 @@ const AdminCategory = () => {
     if (editableCategory.id) {
       await dispatch(
         updateCategories({
-          id: editableCategory.id.toString(), // Convert number to string
+          id: editableCategory.id.toString(), 
           categoryData: { title: editableCategory.title },
         })
       );

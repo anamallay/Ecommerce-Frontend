@@ -49,7 +49,7 @@ interface Product {
 }
 
 const AdminProduct = () => {
-  const { products, isLoading, error } = useSelector(
+  const { products, isLoading } = useSelector(
     (state: RootState) => state.products
   );
   const { categories } = useSelector((state: RootState) => state.categories);

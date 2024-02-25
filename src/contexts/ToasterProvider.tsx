@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useContext,
   useState,
@@ -6,6 +6,9 @@ import React, {
   FC,
 } from "react";
 import Snackbar from "../components/pages/SnakeBar"; // Note: Ensure the file name is correct. It might be Snackbar instead of SnakeBar.
+// useToaster.ts
+
+
 
 type ToasterContextType = {
   showHideToast: (
@@ -23,7 +26,10 @@ interface ToasterProviderProps {
 export const ToasterProvider: FC<ToasterProviderProps> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [type, setType] = useState("success"); // Default type
+  const [type, setType] = useState<"success" | "info" | "warning" | "error">(
+    "success"
+  );
+
 
   const showHideToast = (
     message: string,
@@ -45,6 +51,7 @@ export const ToasterProvider: FC<ToasterProviderProps> = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useToaster = () => {
   const context = useContext(ToasterContext);
   if (context === undefined) {
