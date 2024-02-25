@@ -23,7 +23,7 @@ const Cart = () => {
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const { isLoggedIn } = useSelector((state: RootState) => state.users);
 
-  const handleRemoveFromCart = (id: number) => {
+  const handleRemoveFromCart = (id: string) => {
     dispatch(removeFromCart(id));
   };
 
@@ -57,7 +57,7 @@ const Cart = () => {
             <TableRow key={item.id}>
               <TableCell>
                 <img
-                  src={item.image}
+                  src={item.image || "public/images/default.png"}
                   alt={item.title}
                   style={{ width: "50px", height: "50px" }}
                 />
@@ -105,7 +105,7 @@ const Cart = () => {
             {isLoggedIn ? (
               <Payment
                 cartItems={cartItems}
-                amount={calculateTotal().toFixed(2)}
+                amount={parseFloat(calculateTotal().toFixed(2))}
               />
             ) : (
               <Typography

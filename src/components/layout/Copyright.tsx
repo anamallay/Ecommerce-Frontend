@@ -1,7 +1,9 @@
-import Typography from "@mui/material/Typography";
+import Typography, { TypographyProps } from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 
-export function Copyright(props) {
+interface CopyrightProps extends TypographyProps {}
+
+export function Copyright(props: CopyrightProps) {
   return (
     <Typography
       variant="body2"

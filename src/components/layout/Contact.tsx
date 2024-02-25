@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Grid, Typography, TextField, Button } from "@mui/material";
 import { sendContactForm } from "../../reducer/actions/contactus/contactusSlice";
-import { AppDispatch } from "../../reducer/store/store";
+import { AppDispatch, RootState } from "../../reducer/store/store";
 import { useToaster } from "../../contexts/ToasterProvider";
 import { fetchProductByLimit } from "../../reducer/actions/products/productSlice";
 import CircularColor from "../pages/Loading";
 
 const Contact = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { isLoading, isSuccess } = useSelector((state) => state.contactus);
+  const { isLoading, isSuccess } = useSelector(
+    (state: RootState) => state.contactus
+  );
   // Pagination
   const limit = 4;
   const page = 1;
 
   useEffect(() => {
     dispatch(fetchProductByLimit({ page, limit }));
-  }, [isSuccess]);
+  }, [dispatch, isSuccess, page, limit]);
 
   const [formData, setFormData] = useState({
     subject: "",
     email: "",
     message: "",
   });
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,

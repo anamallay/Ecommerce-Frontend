@@ -2,6 +2,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURl } from "../baseURl";
 
+interface ContactFormData {
+  subject: string;
+  email: string;
+  message: string;
+}
+
 const initialState = {
   isLoading: false,
   isSuccess: false,
@@ -11,7 +17,7 @@ const initialState = {
 
 export const sendContactForm = createAsyncThunk(
   "contact/sendContactForm",
-  async (contactData, { rejectWithValue }) => {
+  async (contactData: ContactFormData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${baseURl}/api/contactus`,
@@ -19,7 +25,6 @@ export const sendContactForm = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      // Check if the server responded with a non-200 status and use that message if available
       if (
         error.response &&
         error.response.data &&
@@ -27,7 +32,6 @@ export const sendContactForm = createAsyncThunk(
       ) {
         return rejectWithValue(error.response.data.message);
       } else {
-        // This handles cases where the error is not coming from the server response
         return rejectWithValue(
           "An unexpected error occurred. Please try again later."
         );

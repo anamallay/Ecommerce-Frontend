@@ -5,6 +5,11 @@ import { baseURl } from "../baseURl";
 
 axios.defaults.withCredentials = true;
 
+interface FetchProductByLimitArgs {
+  page: number;
+  limit: number;
+}
+
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
@@ -23,7 +28,7 @@ export const findProductById = createAsyncThunk(
 
 export const fetchProductByLimit = createAsyncThunk(
   "products/fetchProductByLimit",
-  async ({ page, limit }) => {
+  async ({ page, limit }: FetchProductByLimitArgs) => {
     const response = await axios.get(
       `${baseURl}/api/products/pagination/?page=${page}&limit=${limit}`
     );

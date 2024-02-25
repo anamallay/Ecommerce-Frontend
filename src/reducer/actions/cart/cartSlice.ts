@@ -36,7 +36,7 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state.cartItems));
     },
 
-    removeFromCart: (state, action: PayloadAction<number>) => {
+    removeFromCart: (state, action: PayloadAction<string>) => {
       console.log("Trying to remove product with _id:", action.payload);
       const index = state.cartItems.findIndex(
         (item) => item._id === action.payload
