@@ -4,6 +4,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { Button, Container, Typography } from "@mui/material";
 import { useToaster } from "../../../contexts/ToasterProvider";
+import { baseURl } from "../../../reducer/actions/baseURl";
 
 const ActivateAccount = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const ActivateAccount = () => {
     // todo: mode this to redux action slice 
   const handleActivation = () => {
     axios
-      .post(`http://localhost:3002/api/users/activate-account/${token}`)
+      .post(`${baseURl}/api/users/activate-account/${token}`)
       .then((response) => {
         navigate("/login", { state: { fromActivation: true } });
         showHideToast(

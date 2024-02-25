@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import axios from "axios";
+import { baseURl } from "../baseURl";
+axios.defaults.withCredentials = true;
 
 export const fetchOrders = createAsyncThunk("users/fetchOrders", async () => {
-  const respone = await axios.get("http://localhost:3002/api/orders");
+  const respone = await axios.get(`${baseURl}/api/orders`);
   return respone.data;
 });
 export const fetchOrdersByUser = createAsyncThunk(
   "users/fetchOrdersByUser",
   async (userId: string) => {
-    const respone = await axios.get(
-      `http://localhost:3002/api/orders/getBuyer/${userId}`
-    );
+    const respone = await axios.get(`${baseURl}/api/orders/getBuyer/${userId}`);
     return respone.data;
   }
 );
@@ -20,7 +20,7 @@ export const updateOrderStatus = createAsyncThunk(
   async ({ orderId, status }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:3002/api/orders/${orderId}/status`,
+        `${baseURl}/api/orders/${orderId}/status`,
         { status }
       );
       return response.data;
@@ -32,9 +32,7 @@ export const updateOrderStatus = createAsyncThunk(
 export const deleteOrder = createAsyncThunk(
   "orders/deleteOrder",
   async (orderId) => {
-    const response = await axios.delete(
-      `http://localhost:3002/api/orders/${orderId}`
-    );
+    const response = await axios.delete(`${baseURl}/api/orders/${orderId}`);
     return response.data;
   }
 );
@@ -43,9 +41,7 @@ export const deleteOrder = createAsyncThunk(
 export const fetchBrainTreeToken = createAsyncThunk(
   "users/fetchBrainTreeToken",
   async () => {
-    const respone = await axios.get(
-      "http://localhost:3002/api/orders/braintree/token"
-    );
+    const respone = await axios.get(`${baseURl}/api/orders/braintree/token`);
     return respone.data;
   }
 );
@@ -53,7 +49,7 @@ export const payWithBraintree = createAsyncThunk(
   "users/payWithBraintree",
   async (data: object) => {
     const respone = await axios.post(
-      "http://localhost:3002/api/orders/braintree/payment",
+      `${baseURl}/api/orders/braintree/payment`,
       data
     );
     return respone.data;

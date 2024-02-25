@@ -1,11 +1,14 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Product } from "../../../types/types";
+import { baseURl } from "../baseURl";
+
+axios.defaults.withCredentials = true;
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const response = await axios.get("http://localhost:3002/api/products");
+    const response = await axios.get(`${baseURl}/api/products`);
     return response.data;
   }
 );
@@ -13,9 +16,7 @@ export const fetchProducts = createAsyncThunk(
 export const findProductById = createAsyncThunk(
   "products/findProductById",
   async (id: string) => {
-    const response = await axios.get(
-      `http://localhost:3002/api/products/${id}`
-    );
+    const response = await axios.get(`${baseURl}/api/products/${id}`);
     return response.data;
   }
 );
@@ -24,7 +25,7 @@ export const fetchProductByLimit = createAsyncThunk(
   "products/fetchProductByLimit",
   async ({ page, limit }) => {
     const response = await axios.get(
-      `http://localhost:3002/api/products/pagination/?page=${page}&limit=${limit}`
+      `${baseURl}/api/products/pagination/?page=${page}&limit=${limit}`
     );
     return response.data;
   }
@@ -35,7 +36,7 @@ export const createProduct = createAsyncThunk(
   async (formData: FormData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:3002/api/products`,
+        `${baseURl}/api/products`,
         formData,
         {
           headers: {

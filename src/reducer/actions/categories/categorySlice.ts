@@ -1,11 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { baseURl } from "../baseURl";
 
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3002/api/categories");
+      const response = await axios.get(`${baseURl}/api/categories`);
       return response.data.payload;
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -19,7 +20,7 @@ export const createCategories = createAsyncThunk(
   async (categoryData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3002/api/categories",
+        `${baseURl}/api/categories`,
         categoryData
       );
       return response.data.payload;
@@ -39,7 +40,7 @@ export const updateCategories = createAsyncThunk(
   ) => {
     try {
       const response = await axios.put(
-        `http://localhost:3002/api/categories/${id}`,
+        `${baseURl}/api/categories/${id}`,
         categoryData
       );
       return response.data.payload;
@@ -54,9 +55,7 @@ export const deleteCategories = createAsyncThunk(
   "categories/deleteCategories",
   async (id: string, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3002/api/categories/${id}`
-      );
+      const response = await axios.delete(`${baseURl}/api/categories/${id}`);
       return response.data.payload;
     } catch (error) {
       console.error("Error deleting category:", error);

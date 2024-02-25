@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { UserData } from "../../../types/types";
+import { baseURl } from "../baseURl";
 
 axios.defaults.withCredentials = true;
 
@@ -8,7 +9,7 @@ export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async ({ page, limit }) => {
     const response = await axios.get<UserData[]>(
-      `http://localhost:3002/api/users?page=${page}&limit=${limit}`
+      `${baseURl}/api/users?page=${page}&limit=${limit}`
     );
     return response.data;
   }
@@ -18,7 +19,7 @@ export const createUser = createAsyncThunk(
   "users/createUser",
   async (userData: object) => {
     const response = await axios.post(
-      `http://localhost:3002/api/users/register`,
+      `${baseURl}/api/users/register`,
       userData
     );
     return response.data;
@@ -27,27 +28,33 @@ export const createUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "users/loginUser",
-  async (userData: object) => {
-    const response = await axios.post(
-      `http://localhost:3002/api/auth/login`,
-      userData
-    );
-    return response.data;
+  async (userData: object, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${baseURl}/api/auth/login`, userData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
 );
-export const logoutUser = createAsyncThunk("users/logoutUser", async () => {
-  const response = await axios.post(`http://localhost:3002/api/auth/logout`);
-  return response.data;
-});
+
+export const logoutUser = createAsyncThunk(
+  "users/logoutUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${baseURl}/api/auth/logout`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 export const forgetPassword = createAsyncThunk(
   "users/forgetPassword",
   async (email: string) => {
-    const response = await axios.post(
-      `http://localhost:3002/api/auth/forget-password`,
-      {
-        email: email,
-      }
-    );
+    const response = await axios.post(`${baseURl}/api/auth/forget-password`, {
+      email: email,
+    });
     return response.data;
   }
 );
@@ -56,7 +63,7 @@ export const resetPassword = createAsyncThunk(
   async (args: { password: string; token: string }) => {
     const { password, token } = args;
     console.log("password, token", password, token);
-    const response = await axios.put(`localhost:3002/api/auth/reset-password`, {
+    const response = await axios.put(`${baseURl}/api/auth/reset-password`, {
       password,
       token,
     });
@@ -69,7 +76,7 @@ export const Updateusers = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:3002/api/users/${userData._id}`,
+        `${baseURl}/api/users/${userData._id}`,
         userData
       );
       return response.data;
@@ -81,22 +88,18 @@ export const Updateusers = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "users/deleteUser",
   async (id: string) => {
-    const response = await axios.delete(
-      `http://localhost:3002/api/users/${id}`
-    );
+    const response = await axios.delete(`${baseURl}/api/users/${id}`);
     return response.data;
   }
 );
 export const banUser = createAsyncThunk("users/banUser", async (id: string) => {
-  const response = await axios.put(`http://localhost:3002/api/users/ban/${id}`);
+  const response = await axios.put(`${baseURl}/api/users/ban/${id}`);
   return response.data;
 });
 export const unbanUser = createAsyncThunk(
   "users/unbanUser",
   async (id: string) => {
-    const response = await axios.put(
-      `http://localhost:3002/api/users/unban/${id}`
-    );
+    const response = await axios.put(`${baseURl}/api/users/unban/${id}`);
     return response.data;
   }
 );
@@ -146,10 +149,20 @@ export const usersSlice = createSlice({
       state.isLoading = false;
     });
     // fulfilled => logoutUser
-    builder.addCase(logoutUser.fulfilled, (state, action: PayloadAction) => {
+    builder.addCase(logoutUser.fulfilled, (state) => {
       state.isLoggedIn = false;
       state.userData = null;
-      localStorage.removeItem("loginData");
+
+      localStorage.setItem(
+        "loginData",
+        JSON.stringify({
+          isLoggedIn: state.isLoggedIn,
+          userData: state.userData,
+        })
+      );
+      state.isLoading = false;
+
+      // localStorage.removeItem("loginData");
     });
     // fulfilled => createUser
     builder.addCase(createUser.fulfilled, (state, action: PayloadAction) => {

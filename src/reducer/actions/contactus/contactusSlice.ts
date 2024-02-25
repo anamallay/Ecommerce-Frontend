@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { baseURl } from "../baseURl";
 
 const initialState = {
   isLoading: false,
@@ -13,7 +14,7 @@ export const sendContactForm = createAsyncThunk(
   async (contactData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3002/api/contactus",
+        `${baseURl}/api/contactus`,
         contactData
       );
       return response.data;
