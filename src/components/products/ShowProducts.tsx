@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchProductByLimit } from "../../reducer/actions/products/productSlice";
 import { Product } from "../../types/types";
-import { AppDispatch } from "../../reducer/store/store";
+import { AppDispatch, RootState } from "../../reducer/store/store";
 import CircularColor from "../pages/Loading";
 import { addToCart } from "../../reducer/actions/cart/cartSlice";
 import { Box, Pagination, Stack } from "@mui/material";
@@ -17,7 +17,9 @@ import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const ShowProducts = () => {
-  const { products, isLoading, error } = useSelector((state) => state.products);
+  const { products, isLoading, error } = useSelector(
+    (state: RootState) => state.products
+  );
   const dispatch: AppDispatch = useDispatch();
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
@@ -39,7 +41,7 @@ const ShowProducts = () => {
   }, [dispatch, page, limit]);
 
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setPage(value);
@@ -99,7 +101,7 @@ const ShowProducts = () => {
                 }}>
                 <CardMedia
                   sx={{ height: 200, objectFit: "cover" }}
-                  image={product.image}
+                  image={product.image || "public/images/default.png"}
                   title={product.title}
                 />
                 <CardContent>

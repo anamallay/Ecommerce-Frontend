@@ -2,6 +2,10 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { baseURl } from "../baseURl";
 
+interface CategoryPayload {
+  title: string;
+}
+
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async (_, { rejectWithValue }) => {
@@ -17,7 +21,7 @@ export const fetchCategories = createAsyncThunk(
 
 export const createCategories = createAsyncThunk(
   "categories/createCategories",
-  async (categoryData, { rejectWithValue }) => {
+  async (categoryData: CategoryPayload, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${baseURl}/api/categories`,

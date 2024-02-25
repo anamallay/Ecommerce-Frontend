@@ -29,6 +29,11 @@ import {
   updateCategories,
 } from "../../../reducer/actions/categories/categorySlice";
 
+interface EditableCategory {
+  title: string;
+  id?: number; // Use optional if ID might not be present initially
+}
+
 const AdminCategory = () => {
   const { categories, isLoading, error } = useSelector(
     (state: RootState) => state.categories
@@ -63,17 +68,19 @@ const AdminCategory = () => {
   };
   // Edit
   const [openEdit, setOpenEdit] = useState(false);
-  const [editableCategory, setEditableCategory] = useState({
+  const [editableCategory, setEditableCategory] = useState<EditableCategory>({
     title: "",
   });
+
   const handleOpenEdit = (categorySlug: string) => {
     const categoryToEdit = categories.find(
-      (category) => category._id === categorySlug
+      (category) => category._id.toString() === categorySlug
     );
+
     if (categoryToEdit) {
       setEditableCategory({
         title: categoryToEdit.title,
-        id: categoryToEdit._id, // Assuming the category has a slug field
+        id: categoryToEdit._id,
       });
     }
     setOpenEdit(true);
@@ -92,14 +99,12 @@ const AdminCategory = () => {
 
   const handleSaveEdit = async () => {
     if (editableCategory.id) {
-      // Ensure we are using `id` here, not `slug`
       await dispatch(
         updateCategories({
-          id: editableCategory.id, // Use the correct ID field for the update
+          id: editableCategory.id.toString(), // Convert number to string
           categoryData: { title: editableCategory.title },
         })
       );
-      // Refetch categories to update the list
       dispatch(fetchCategories());
       setOpenEdit(false);
       showHideToast("Category updated successfully!", "success");
@@ -107,6 +112,7 @@ const AdminCategory = () => {
       showHideToast("Error finding category ID", "error");
     }
   };
+
   // Create
   const [openCreate, setOpenCreate] = useState(false);
   const [createCategory, setCreateCategory] = useState({
@@ -127,16 +133,15 @@ const AdminCategory = () => {
     }));
   };
 
-const handleSaveCreate = async () => {
-  await dispatch(createCategories({ title: createCategory.title }));
-  dispatch(fetchCategories());
-  setOpenCreate(false);
-  showHideToast("Category Created successfully!", "success");
-};
-
+  const handleSaveCreate = async () => {
+    await dispatch(createCategories({ title: createCategory.title }));
+    dispatch(fetchCategories());
+    setOpenCreate(false);
+    showHideToast("Category Created successfully!", "success");
+  };
 
   if (isLoading) return <CircularColor />;
-   console.log("error", error);
+  console.log("error", error);
   if (error)
     return (
       <Box sx={{ display: "flex" }}>
@@ -144,18 +149,18 @@ const handleSaveCreate = async () => {
           <AdminSideBar />
         </Box>
         <Box sx={{ flexGrow: 1, overflow: "auto" }}>
-            <Typography
-              sx={{
-                height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              variant="h4"
-              color="error"
-              gutterBottom>
-              Error loading categories!
-            </Typography>
+          <Typography
+            sx={{
+              height: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            variant="h4"
+            color="error"
+            gutterBottom>
+            Error loading categories!
+          </Typography>
         </Box>
       </Box>
     );
@@ -183,7 +188,6 @@ const handleSaveCreate = async () => {
         </Box>
       </Box>
     );
-
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -241,14 +245,14 @@ const handleSaveCreate = async () => {
                       size="small"
                       variant="contained"
                       color="primary"
-                      onClick={() => handleOpenEdit(category._id)}>
+                      onClick={() => handleOpenEdit(category._id.toString())}>
                       Edit
                     </Button>
                     <Button
                       size="small"
                       variant="contained"
                       color="secondary"
-                      onClick={() => handleOpenDelete(category._id)}>
+                      onClick={() => handleOpenDelete(category._id.toString())}>
                       Delete
                     </Button>
                   </Stack>

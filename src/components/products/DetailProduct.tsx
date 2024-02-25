@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -10,9 +10,10 @@ import {
   CardContent,
   CardMedia
 } from "@mui/material";
-import { AppDispatch } from "../../reducer/store/store";
+import { AppDispatch, RootState } from "../../reducer/store/store";
 import { findProductById } from "../../reducer/actions/products/productSlice";
 import { addToCart } from "../../reducer/actions/cart/cartSlice";
+import { Product } from "../../types/types";
 
 const DetailProduct = () => {
   const { id } = useParams();
@@ -24,13 +25,13 @@ const DetailProduct = () => {
     if (id) {
       dispatch(findProductById(id));
     }
-  }, [id]);
+  }, [id, dispatch]);
 
-  const singleProduct = useSelector((state) =>
+  const singleProduct = useSelector((state: RootState) =>
     state.products.products.find((product) => product._id === id)
   );
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
 
@@ -42,7 +43,7 @@ const DetailProduct = () => {
             <Card>
               <CardMedia
                 component="img"
-                image={singleProduct.image}
+                image={singleProduct.image || "public/images/default.png"}
                 alt={singleProduct.title}
                 sx={{ height: 300 }} // Set a specific height
               />
