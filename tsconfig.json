@@ -8,12 +8,10 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    // "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    // "noEmit": true,
-    "noEmit": false, // Changed to false to allow file emission even if there are errors
-    "noEmitOnError": false, // Added this line to emit files even when there are TS errors
+    "noEmit": true,
     "jsx": "react-jsx",
 
     /* Linting */
