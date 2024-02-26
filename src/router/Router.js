@@ -1,0 +1,30 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+// import Header from "../components/layout/Header";
+// import Home from "../components/layout/Home";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
+// import AboutUs from "../components/layout/AboutUs";
+// import Contact from "../components/layout/Contact";
+import Error from "../components/layout/Error";
+import ResetPassword from "../components/pages/ForgetAndReset/ResetPassword";
+import ActivateAccount from "../components/pages/ForgetAndReset/ActivateAccount";
+import ForgetPassword from "../components/pages/ForgetAndReset/ForgetPassword";
+import Cart from "../components/layout/Cart";
+import MyProfile from "../components/SideBar/user/MyProfile";
+import ProtectedRoute from "./ProtectedRoute";
+import UserSideBar from "../components/SideBar/user/UserSideBar";
+import AdminRoute from "./AdminRoute";
+import AdminSideBar from "../components/SideBar/admin/AdminSideBar";
+import AdminProduct from "../components/SideBar/admin/AdminProduct";
+import AdminCategory from "../components/SideBar/admin/AdminCategory";
+import AdminUserlist from "../components/SideBar/admin/AdminUserlist";
+import AdminOrders from "../components/SideBar/admin/AdminOrders";
+import DetailProduct from "../components/products/DetailProduct";
+// import ShowProducts from "../components/products/showProducts";
+import MyOrder from "../components/SideBar/user/MyOrder";
+import Layout from "./Layout ";
+function Index() {
+    return (_jsx("div", { children: _jsx(BrowserRouter, { children: _jsx(Routes, { children: _jsxs(Route, { path: "/", element: _jsx(Layout, {}), children: [_jsx(Route, { path: "register", element: _jsx(Register, {}) }), _jsx(Route, { path: "login", element: _jsx(Login, {}) }), _jsx(Route, { path: "forgetPassword", element: _jsx(ForgetPassword, {}) }), _jsx(Route, { path: "resetpassword/:token", element: _jsx(ResetPassword, {}) }), _jsx(Route, { path: "showProducts/:id", element: _jsx(DetailProduct, {}) }), _jsx(Route, { path: "cart", element: _jsx(Cart, {}) }), _jsxs(Route, { path: "/dashboard", element: _jsx(ProtectedRoute, {}), children: [_jsx(Route, { path: "user", element: _jsx(UserSideBar, {}) }), _jsx(Route, { path: "user/myprofile", element: _jsx(MyProfile, {}) }), _jsx(Route, { path: "user/myorder", element: _jsx(MyOrder, {}) })] }), _jsxs(Route, { path: "/dashboard", element: _jsx(AdminRoute, {}), children: [_jsx(Route, { path: "admin", element: _jsx(AdminSideBar, {}) }), _jsx(Route, { path: "admin/products", element: _jsx(AdminProduct, {}) }), _jsx(Route, { path: "admin/category", element: _jsx(AdminCategory, {}) }), _jsx(Route, { path: "admin/userlist", element: _jsx(AdminUserlist, {}) }), _jsx(Route, { path: "admin/orders", element: _jsx(AdminOrders, {}) })] }), _jsx(Route, { path: "users/activate-account/:token", element: _jsx(ActivateAccount, {}) }), _jsx(Route, { path: "*", element: _jsx(Error, {}) })] }) }) }) }));
+}
+export default Index;
