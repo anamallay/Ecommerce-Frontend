@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../reducer/store/store";
 import {
@@ -35,7 +35,6 @@ import AdminSideBar from "./AdminSideBar";
 import CircularColor from "../../pages/Loading";
 import { useToaster } from "../../../contexts/ToasterProvider";
 
-
 interface Product {
   _id: string;
   slug: string;
@@ -48,7 +47,6 @@ interface Product {
   shipping: number;
   price: number;
 }
-
 
 const AdminProduct = () => {
   const { products, isLoading } = useSelector(
@@ -79,7 +77,6 @@ const AdminProduct = () => {
     dispatch(fetchProducts());
     dispatch(fetchCategories());
   }, [dispatch]);
-  
 
   const handleOpenModalEdit = (productId: string) => {
     const product = products.find((product) => product._id === productId);
@@ -93,7 +90,6 @@ const AdminProduct = () => {
       ...product,
       category: product.category.map((cat) => cat._id || cat),
     };
-
 
     setEditableProduct(updatedProduct);
     setOpenModalEdit(true);
@@ -129,12 +125,12 @@ const AdminProduct = () => {
   const handleEditChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
-    const { name, value } = event.target 
+    const { name, value } = event.target;
 
     if (name === "category") {
       setEditableProduct((prevState) => ({
         ...prevState,
-        [name]: value as string[], 
+        [name]: value as string[],
       }));
     } else if (name === "image" && event.target.files) {
       const file = event.target.files[0];
@@ -145,12 +141,10 @@ const AdminProduct = () => {
     } else {
       setEditableProduct((prevState) => ({
         ...prevState,
-        [name]: value, 
+        [name]: value,
       }));
     }
   };
-  
-
 
   const handleSaveEdit = async () => {
     const slug = editableProduct.slug;
@@ -256,7 +250,7 @@ const AdminProduct = () => {
       }));
     }
   };
-  
+
   // Corrected handleSaveCreate function
   const handleSaveCreate = async () => {
     const formData = new FormData();
