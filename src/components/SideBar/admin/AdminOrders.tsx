@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteOrder,
@@ -29,12 +29,11 @@ import {
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import CircularColor from "../../pages/Loading";
 import { useToaster } from "../../../contexts/ToasterProvider";
+import { Product } from "../../../types/types";
 
 const AdminOrders = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { orders, isLoading } = useSelector(
-    (state: RootState) => state.order
-  );
+  const { orders, isLoading } = useSelector((state: RootState) => state.order);
   const { showHideToast } = useToaster();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -43,7 +42,15 @@ const AdminOrders = () => {
     dispatch(fetchOrders());
   }, [dispatch]);
 
-  const handleStatusChange = (orderId, newStatus) => {
+  const handleStatusChange = (
+    orderId: string,
+    newStatus:
+      | "Not processed"
+      | "Processing"
+      | "Shipped"
+      | "Delivered"
+      | "Cancelled"
+  ) => {
     dispatch(
       updateOrderStatus({ orderId: orderId.toString(), status: newStatus })
     )
@@ -66,17 +73,17 @@ const AdminOrders = () => {
       });
   };
 
-const handleDeleteOrder = (orderId) => {
-  dispatch(deleteOrder(orderId))
-    .then(() => {
-      dispatch(fetchOrders()).then(() => {
-        showHideToast("Order deleted successfully", "success");
+  const handleDeleteOrder = (orderId: string) => {
+    dispatch(deleteOrder(orderId))
+      .then(() => {
+        dispatch(fetchOrders()).then(() => {
+          showHideToast("Order deleted successfully", "success");
+        });
+      })
+      .catch(() => {
+        showHideToast("Failed to delete order", "error");
       });
-    })
-    .catch((error) => {
-      showHideToast("Failed to delete order", "error");
-    });
-};
+  };
 
   if (isLoading) return <CircularColor />;
 
@@ -87,7 +94,9 @@ const handleDeleteOrder = (orderId) => {
         <List>
           {Array.isArray(orders) &&
             orders.map((order) => (
-              <ListItem key={order._id} alignItems="flex-start">
+              <ListItem
+                key={order?._id}
+                alignItems="flex-start">
                 <Card
                   sx={{
                     display: "flex",
@@ -101,10 +110,11 @@ const handleDeleteOrder = (orderId) => {
                     <Grid container spacing={2}>
                       <Grid item xs={12} sm={6}>
                         <Typography gutterBottom variant="h6" component="div">
-                          Order ID: {order._id}
+                          Order ID: {order?._id}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          Buyer Email: {order.buyer.email}
+                          Buyer Email:{" "}
+                          {order?.buyer?.email}
                         </Typography>
                       </Grid>
                       <Grid item xs={12} sm={6}>
@@ -116,7 +126,7 @@ const handleDeleteOrder = (orderId) => {
                             <Typography>Products</Typography>
                           </AccordionSummary>
                           <AccordionDetails>
-                            {order.products.map((product) => (
+                            {order.products.map((product: Product) => (
                               <Grid container key={product._id}>
                                 <Grid item xs={6}>
                                   <Typography
@@ -139,10 +149,10 @@ const handleDeleteOrder = (orderId) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Typography variant="body2" color="text.secondary">
-                          Payment amount: {order.payment.amount}
+                          Payment amount: {order?.payment?.amount}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          Payment method: {order.payment.method}
+                          Payment method: {order?.payment?.method}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -155,7 +165,7 @@ const handleDeleteOrder = (orderId) => {
                       sx={{ minWidth: 120 }}>
                       <InputLabel>Status</InputLabel>
                       <Select
-                        value={order.status}
+                        value={order?.status}
                         onChange={(e) =>
                           handleStatusChange(order._id, e.target.value)
                         }

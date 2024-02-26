@@ -4,6 +4,16 @@ import axios from "axios";
 import { baseURl } from "../baseURl";
 axios.defaults.withCredentials = true;
 
+interface UpdateOrderStatusPayload {
+  orderId: string;
+  status:
+    | "Not processed"
+    | "Processing"
+    | "Shipped"
+    | "Delivered"
+    | "Cancelled";
+}
+
 export const fetchOrders = createAsyncThunk("users/fetchOrders", async () => {
   const respone = await axios.get(`${baseURl}/api/orders`);
   return respone.data;
@@ -17,7 +27,10 @@ export const fetchOrdersByUser = createAsyncThunk(
 );
 export const updateOrderStatus = createAsyncThunk(
   "orders/updateOrderStatus",
-  async ({ orderId, status }, { rejectWithValue }) => {
+  async (
+    { orderId, status }: UpdateOrderStatusPayload,
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axios.put(
         `${baseURl}/api/orders/${orderId}/status`,
@@ -31,7 +44,7 @@ export const updateOrderStatus = createAsyncThunk(
 );
 export const deleteOrder = createAsyncThunk(
   "orders/deleteOrder",
-  async (orderId) => {
+  async (orderId: string) => {
     const response = await axios.delete(`${baseURl}/api/orders/${orderId}`);
     return response.data;
   }
@@ -56,6 +69,12 @@ export const payWithBraintree = createAsyncThunk(
   }
 );
 export type Order = {
+  products: any;
+  status: any;
+  payment: any;
+  payment: any;
+  buyer: any;
+  _id: Key | null | undefined;
   id: number;
   productId: number;
   userId: number;
