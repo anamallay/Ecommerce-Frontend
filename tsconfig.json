@@ -56,7 +56,7 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true, 
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
