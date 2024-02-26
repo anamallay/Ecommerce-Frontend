@@ -48,17 +48,17 @@ const AboutUs = () => {
           {
             name: "John Doe",
             title: "CEO & Founder",
-            img: "../../public/images/employees/m1.jpeg",
+            img: "public/images/employees/m1.jpeg",
           },
           {
             name: "Jane Smith",
             title: "CTO",
-            img: "../../public/images/employees/m2.jpeg",
+            img: "public/images/employees/m2.jpeg",
           },
           {
             name: "Emily Johnson",
             title: "Lead Designer",
-            img: "../../public/images/employees/m3.jpeg",
+            img: "public/images/employees/m3.jpeg",
           },
         ].map((member, index) => (
           <Grid item lg={4} sm={6} key={index}>
