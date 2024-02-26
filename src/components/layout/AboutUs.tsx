@@ -48,7 +48,7 @@ const AboutUs = () => {
           {
             name: "John Doe",
             title: "CEO & Founder",
-            img: "public/images/employees/m1.jpeg",
+            img: "images/employees/m1.jpeg",
           },
           {
             name: "Jane Smith",
