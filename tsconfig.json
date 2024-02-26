@@ -35,6 +35,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": false, // Enabled for better type safety and code quality
     "noEmit": false, // Ensures TypeScript compiles to JavaScript
     "noEmitOnError": false, // Allows compilation even with errors, for development convenience
