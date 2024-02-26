@@ -37,7 +37,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "strict": false, // Enabled for better type safety and code quality
+    "strict": true, // Enabled for better type safety and code quality
     "noEmit": false, // Ensures TypeScript compiles to JavaScript
     "noEmitOnError": false, // Allows compilation even with errors, for development convenience
     "noUnusedLocals": false, // Disabled for development, consider enabling for production
