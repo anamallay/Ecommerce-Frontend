@@ -29,7 +29,7 @@ const customFontFamily = "Sixtyfour";
 
 const HeroSection = styled(Box)(({ theme }) => ({
   height: "90vh",
-  backgroundImage: 'url("../../public/images/home.webp")',
+  backgroundImage: 'url("/images/home.webp")',
   backgroundSize: "cover",
   backgroundPosition: "center",
   display: "flex",
