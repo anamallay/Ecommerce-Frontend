@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Provider } from "react-redux";
-import { store } from "./reducer/store/store.ts";
+import { store } from "./reducer/store/store";
 import './css/index.css'
+import * as React from "react";
+import App from "./App";
+import * as ReactDOM from "react-dom/client";
 
 const theme = createTheme({
   typography: {
