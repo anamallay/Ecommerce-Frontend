@@ -85,7 +85,7 @@ export default function Header() {
               aria-label="menu"
               sx={{ mr: 2 }}>
               <img
-                src="../../public/images/icon.png"
+                src="images/icon.png"
                 alt="menu"
                 style={{ width: 32, height: 32 }}
               />
