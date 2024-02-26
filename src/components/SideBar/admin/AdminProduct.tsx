@@ -35,6 +35,7 @@ import AdminSideBar from "./AdminSideBar";
 import CircularColor from "../../pages/Loading";
 import { useToaster } from "../../../contexts/ToasterProvider";
 
+
 interface Product {
   _id: string;
   slug: string;
@@ -47,6 +48,7 @@ interface Product {
   shipping: number;
   price: number;
 }
+
 
 const AdminProduct = () => {
   const { products, isLoading } = useSelector(
@@ -77,8 +79,9 @@ const AdminProduct = () => {
     dispatch(fetchProducts());
     dispatch(fetchCategories());
   }, [dispatch]);
+  
 
-  const handleOpenModalEdit = (productId) => {
+  const handleOpenModalEdit = (productId: string) => {
     const product = products.find((product) => product._id === productId);
 
     if (!product) {
@@ -86,10 +89,11 @@ const AdminProduct = () => {
       return;
     }
 
-    const updatedProduct = {
+    const updatedProduct: Product = {
       ...product,
       category: product.category.map((cat) => cat._id || cat),
     };
+
 
     setEditableProduct(updatedProduct);
     setOpenModalEdit(true);
@@ -99,15 +103,38 @@ const AdminProduct = () => {
     setOpenModalEdit(false);
   };
 
+  // const handleEditChange = (
+  //   event: React.ChangeEvent<{ name?: string; value: unknown }>
+  // ) => {
+  //   const { name, value } = event.target;
+
+  //   if (name === "category") {
+  //     setEditableProduct((prevState) => ({
+  //       ...prevState,
+  //       [name]: value,
+  //     }));
+  //   } else if (name === "image" && event.target.files) {
+  //     const file = event.target.files[0];
+  //     setEditableProduct((prevState) => ({
+  //       ...prevState,
+  //       image: file,
+  //     }));
+  //   } else {
+  //     setEditableProduct((prevState) => ({
+  //       ...prevState,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
   const handleEditChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target 
 
     if (name === "category") {
       setEditableProduct((prevState) => ({
         ...prevState,
-        [name]: value,
+        [name]: value as string[], 
       }));
     } else if (name === "image" && event.target.files) {
       const file = event.target.files[0];
@@ -118,10 +145,12 @@ const AdminProduct = () => {
     } else {
       setEditableProduct((prevState) => ({
         ...prevState,
-        [name]: value,
+        [name]: value, 
       }));
     }
   };
+  
+
 
   const handleSaveEdit = async () => {
     const slug = editableProduct.slug;
@@ -227,6 +256,7 @@ const AdminProduct = () => {
       }));
     }
   };
+  
   // Corrected handleSaveCreate function
   const handleSaveCreate = async () => {
     const formData = new FormData();
@@ -337,10 +367,10 @@ const AdminProduct = () => {
                   "&:hover": {
                     backgroundColor: "primary.light",
                   },
-                }}>              
+                }}>
                 <CardMedia
                   sx={{ width: 160 }}
-                  image={product.image}
+                  image={product.image || "public/images/default.png"}
                   title={product.title}
                 />
                 <Box
