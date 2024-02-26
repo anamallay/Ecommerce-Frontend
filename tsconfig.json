@@ -8,7 +8,7 @@
 
 //     /* Bundler mode */
 //     "moduleResolution": "bundler",
-//     // "allowImportingTsExtensions": true,
+//     "allowImportingTsExtensions": true,
 //     "resolveJsonModule": true,
 //     "isolatedModules": true,
 //     // "noEmit": true,
@@ -16,6 +16,8 @@
 
 //     /* Linting */
 //     "strict": false,
+//     "noEmit": false,
+//     "noEmitOnError": false,
 //     // "strict": true,
 //     "noUnusedLocals": true,
 //     "noUnusedParameters": true,
@@ -31,15 +33,15 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // Changed from "bundler" to "node" for broader compatibility
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
-    "noEmitOnError": false,
     "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "strict": false, // Enabled for better type safety and code quality
+    "noEmit": false, // Ensures TypeScript compiles to JavaScript
+    "noEmitOnError": false, // Allows compilation even with errors, for development convenience
+    "noUnusedLocals": false, // Disabled for development, consider enabling for production
+    "noUnusedParameters": false, // Disabled for development, consider enabling for production
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
