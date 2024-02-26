@@ -24,24 +24,45 @@
 //   "include": ["src"],
 //   "references": [{ "path": "./tsconfig.node.json" }]
 // }
+// {
+//   "compilerOptions": {
+//     "target": "ES2020",
+//     "useDefineForClassFields": true,
+//     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+//     "module": "ESNext",
+//     "skipLibCheck": true,
+//     "moduleResolution": "node", // Changed from "bundler" to "node" for broader compatibility
+//     "resolveJsonModule": true,
+//     "isolatedModules": true,
+//     "jsx": "react-jsx",
+//     "strict": false, // Enabled for better type safety and code quality
+//     "noEmit": false, // Ensures TypeScript compiles to JavaScript
+//     "noEmitOnError": false, // Allows compilation even with errors, for development convenience
+//     "noUnusedLocals": false, // Disabled for development, consider enabling for production
+//     "noUnusedParameters": false, // Disabled for development, consider enabling for production
+//     "noFallthroughCasesInSwitch": true
+//   },
+//   "include": ["src"],
+//   "references": [{ "path": "./tsconfig.node.json" }]
+// }
+
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "node", // Changed from "bundler" to "node" for broader compatibility
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "strict": false, // Enabled for better type safety and code quality
-    "noEmit": false, // Ensures TypeScript compiles to JavaScript
-    "noEmitOnError": false, // Allows compilation even with errors, for development convenience
-    "noUnusedLocals": false, // Disabled for development, consider enabling for production
-    "noUnusedParameters": false, // Disabled for development, consider enabling for production
-    "noFallthroughCasesInSwitch": true
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
