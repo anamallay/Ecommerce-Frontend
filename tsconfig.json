@@ -35,9 +35,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "strict": false, // Enabled for better type safety and code quality
-    "noEmit": false, // Ensures TypeScript compiles to JavaScript
-    "noEmitOnError": false, // Allows compilation even with errors, for development convenience
+    "strict": true, // Enabled for better type safety and code quality
+    "noEmit": true, // Ensures TypeScript compiles to JavaScript
+    "noEmitOnError": true, // Allows compilation even with errors, for development convenience
     "noUnusedLocals": false, // Disabled for development, consider enabling for production
     "noUnusedParameters": false, // Disabled for development, consider enabling for production
     "noFallthroughCasesInSwitch": true
